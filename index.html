@@ -23,6 +23,7 @@
             position: relative;
             background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=school%20campus%20scene%20with%20three%20teaching%20buildings%20around%20a%20rocket%20launch%20pad%2C%20one%20in%20front%20and%20one%20on%20each%20side%2C%20blue%20sky%2C%20sunny%20day%2C%20ghibli%20style%2C%20hand-drawn%20animation&image_size=landscape_16_9') no-repeat center center fixed;
             background-size: cover;
+            background-position: center;
         }
         /* 火箭样式 */
         .rocket {
@@ -107,17 +108,18 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: black;
         }
         .video-container video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
         /* 信封样式 */
         .envelope {
