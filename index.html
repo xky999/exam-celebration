@@ -21,7 +21,8 @@
             align-items: center;
             padding: 20px;
             position: relative;
-            background-color: #f0f0f0;
+            background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=school%20campus%20scene%20with%20three%20teaching%20buildings%20around%20a%20rocket%20launch%20pad%2C%20one%20in%20front%20and%20one%20on%20each%20side%2C%20blue%20sky%2C%20sunny%20day%2C%20ghibli%20style%2C%20hand-drawn%20animation&image_size=landscape_16_9') no-repeat center center fixed;
+            background-size: cover;
         }
         /* 火箭样式 */
         .rocket {
@@ -34,9 +35,32 @@
             cursor: pointer;
             transition: transform 3s ease-in;
         }
-        .rocket img {
+        .rocket-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .rocket-body img {
             width: 100%;
             height: auto;
+            position: relative;
+            z-index: 1;
+        }
+        .rocket-inset {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8%;
+            height: 8%;
+            z-index: 2;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .rocket-inset img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         /* 火箭尾气 */
         .rocket-exhaust {
@@ -78,6 +102,57 @@
             opacity: 1;
             animation: exhaust-pulse 0.6s infinite alternate;
         }
+        /* 视频容器样式 */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* 信封样式 */
+        .envelope {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 60px;
+            background-color: #f44336;
+            border-radius: 5px;
+            z-index: 1000;
+            animation: envelope-fall 3s ease-in forwards;
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 15px solid #f44336;
+        }
+        @keyframes envelope-fall {
+            0% {
+                top: -100px;
+                transform: translateX(-50%) rotate(0deg);
+            }
+            100% {
+                top: 50%;
+                transform: translateX(-50%) rotate(180deg);
+            }
+        }
         /* 火箭起飞动画 */
         .rocket.launch {
             transform: translateX(-50%) translateY(-100vh);
@@ -115,17 +190,50 @@
 
     <!-- 火箭元素 -->
     <div class="rocket" onclick="launchRocket()">
-        <img src="images/rocket.png" alt="火箭">
+        <div class="rocket-body">
+            <img src="images/rocket.png" alt="火箭">
+            <div class="rocket-inset">
+                <img src="images/1.jpg" alt="火箭箭体">
+            </div>
+        </div>
         <div class="rocket-exhaust"></div>
     </div>
+    
+    <!-- 视频元素 -->
+    <div class="video-container" style="display: none;">
+        <video id="rocket-video" src="images/kling_20260417_作品__镜头1_开场_浩瀚_3873_0.mp4" autoplay muted playsinline style="display: none;"></video>
+    </div>
+    
+    <!-- 信封元素 -->
+    <div class="envelope" style="display: none;"></div>
 
     <script>
         // 火箭起飞函数
         function launchRocket() {
             const rocket = document.querySelector('.rocket');
             const exhaust = document.querySelector('.rocket-exhaust');
+            const video = document.getElementById('rocket-video');
+            const videoContainer = document.querySelector('.video-container');
+            const envelope = document.querySelector('.envelope');
+            
+            // 激活尾气动画
             exhaust.classList.add('active');
+            // 启动火箭起飞动画
             rocket.classList.add('launch');
+            
+            // 当火箭飞至顶部时（约3秒后），显示并播放视频
+            setTimeout(() => {
+                video.style.display = 'block';
+                videoContainer.style.display = 'flex';
+                video.play();
+            }, 3000);
+            
+            // 当视频播放完成后，隐藏视频并显示信封
+            video.addEventListener('ended', () => {
+                video.style.display = 'none';
+                videoContainer.style.display = 'none';
+                envelope.style.display = 'block';
+            });
         }
     </script>
 </body>
