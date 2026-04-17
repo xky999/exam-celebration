@@ -1,0 +1,12 @@
+{
+  "name": "exam-celebration",
+  "version": "1.0.0",
+  "description": "考试结束庆祝派对网页",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 4399"
+  },
+  "keywords": ["celebration", "exam", "party"],
+  "author": "",
+  "license": "MIT"
+}

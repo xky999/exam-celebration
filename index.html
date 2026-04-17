@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #5d4037;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+        /* 火箭样式 */
+        .rocket {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50vw;
+            max-width: 300px;
+            cursor: pointer;
+            transition: transform 3s ease-in;
+        }
+        .rocket img {
+            width: 100%;
+            height: auto;
+        }
+        /* 火箭尾气 */
+        .rocket-exhaust {
+            position: absolute;
+            bottom: -30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25vw;
+            max-width: 150px;
+            height: 40vw;
+            max-height: 250px;
+            background: linear-gradient(to bottom, #ffeb3b, #ff9800, #ff5722);
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        .rocket-exhaust::before {
+            content: '';
+            position: absolute;
+            bottom: -15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30vw;
+            max-width: 180px;
+            height: 15vw;
+            max-height: 100px;
+            background: linear-gradient(to bottom, #ff9800, transparent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .rocket-exhaust.active {
+            opacity: 0.7;
+            animation: exhaust 0.4s infinite alternate;
+        }
+        .rocket-exhaust.active::before {
+            opacity: 1;
+            animation: exhaust-pulse 0.6s infinite alternate;
+        }
+        /* 火箭起飞动画 */
+        .rocket.launch {
+            transform: translateX(-50%) translateY(-100vh);
+        }
+        @keyframes exhaust {
+            0% {
+                height: 100px;
+                opacity: 0.8;
+            }
+            100% {
+                height: 150px;
+                opacity: 1;
+            }
+        }
+        @keyframes exhaust-pulse {
+            0% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateX(-50%) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    
+
+    
+
+    <!-- 火箭元素 -->
+    <div class="rocket" onclick="launchRocket()">
+        <img src="images/rocket.png" alt="火箭">
+        <div class="rocket-exhaust"></div>
+    </div>
+
+    <script>
+        // 火箭起飞函数
+        function launchRocket() {
+            const rocket = document.querySelector('.rocket');
+            const exhaust = document.querySelector('.rocket-exhaust');
+            exhaust.classList.add('active');
+            rocket.classList.add('launch');
+        }
+    </script>
+</body>
+</html>
